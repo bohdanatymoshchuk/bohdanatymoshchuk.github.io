@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Lab 2 - Завдання 5</title>
+</head>
+<body>
+  <h2>Завдання 5: Демонстрація методів console</h2>
+  <button onclick="runConsoleTests()">Запустити демонстрацію</button>
+  <br>
+  <img src="zavdaannya5.PNG" alt="Моє зображення" width="300">
+
+  <script>
+    function runConsoleTests() {
+      console.clear();
+
+      console.info("Інфо: Це інформаційне повідомлення (console.info)");
+
+      console.warn("Попередження: Це попереджувальне повідомлення (console.warn)");
+
+      console.error("Помилка: Це повідомлення про помилку (console.error)");
+
+      const testObj = {
+        name: "Lab5",
+        count: 10,
+        nested: {
+          active: true,
+          values: [1, 2, 3]
+        }
+      };
+      console.dir(testObj);
+
+      const el = document.body;
+      console.dirxml(el);
+
+      console.time("Таймер обчислення");
+      let sum = 0;
+      for (let i = 0; i < 1e6; i++) {
+        sum += i;
+      }
+      console.timeEnd("Таймер обчислення");
+
+      if (console.profile) {
+        console.profile("Профілювання циклу");
+        for (let i = 0; i < 100000; i++) {
+          Math.sqrt(i);
+        }
+        console.profileEnd("Профілювання циклу");
+      } else {
+        console.log("console.profile() не підтримується у цьому браузері.");
+      }
+
+      let x = 10;
+      let y = "10";
+      console.assert(x === y, "Assert помилка: x не строго дорівнює y (різні типи)");
+      console.assert(x == y, "Цей assert істинний і не викликає повідомлення");
+
+      console.info("Всі методи console протестовано. Перевірте консоль браузера.");
+    }
+  </script>
+</body>
+</html>

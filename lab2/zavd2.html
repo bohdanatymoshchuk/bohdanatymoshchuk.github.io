@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Калькулятор</title>
+  <style>
+    input[type="button"] { width: 60px; height: 60px; font-size: 20px; }
+  </style>
+</head>
+<body>
+  <input type="text" id="display" readonly style="width:245px; height:40px; font-size:24px;"><br>
+  <div>
+    <input type="button" value="1" onclick="append('1')">
+    <input type="button" value="2" onclick="append('2')">
+    <input type="button" value="3" onclick="append('3')">
+    <input type="button" value="+" onclick="append('+')"><br>
+    <input type="button" value="4" onclick="append('4')">
+    <input type="button" value="5" onclick="append('5')">
+    <input type="button" value="6" onclick="append('6')">
+    <input type="button" value="-" onclick="append('-')"><br>
+    <input type="button" value="7" onclick="append('7')">
+    <input type="button" value="8" onclick="append('8')">
+    <input type="button" value="9" onclick="append('9')">
+    <input type="button" value="*" onclick="append('*')"><br>
+    <input type="button" value="0" onclick="append('0')">
+    <input type="button" value="C" onclick="clearDisplay()">
+    <input type="button" value="=" onclick="calculate()">
+    <input type="button" value="/" onclick="append('/')">
+  </div>
+
+  <script>
+    function append(val) {
+      document.getElementById('display').value += val;
+    }
+    function clearDisplay() {
+      document.getElementById('display').value = '';
+    }
+    function calculate() {
+      try {
+        document.getElementById('display').value = eval(document.getElementById('display').value);
+      } catch (e) {
+        alert("Помилка обчислення");
+      }
+    }
+  </script>
+</body>
+</html>

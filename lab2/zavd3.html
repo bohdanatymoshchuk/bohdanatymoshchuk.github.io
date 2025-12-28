@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Матриця Aᵢⱼ = -2i / 7j</title>
+</head>
+<body>
+  <form id="main_form">
+    <label>Кількість рядків:</label> 
+    <input type="number" id="t_str" value="3"><br>
+    <label>Кількість стовпців:</label>
+    <input type="number" id="t_stb" value="3"><br><br>
+    
+    <input type="button" value="Побудувати матрицю" onclick="buildMatrix()">
+    <input type="button" value="Обчислити суму" onclick="calculateSum()">
+    <div id="matrix_output"></div>
+  </form>
+
+  <script>
+    let rows = 0, cols = 0;
+
+    function buildMatrix() {
+      rows = parseInt(document.getElementById("t_str").value);
+      cols = parseInt(document.getElementById("t_stb").value);
+
+      let html = "<table border='1' cellpadding='5'>";
+      for (let i = 1; i <= rows; i++) {
+        html += "<tr>";
+        for (let j = 1; j <= cols; j++) {
+          const value = (-2 * i) / (7 * j);
+          html += `<td><input type="text" id="cell_${i}_${j}" value="${value.toFixed(2)}" readonly size="6"></td>`;
+        }
+        html += "</tr>";
+      }
+      html += "</table>";
+      document.getElementById("matrix_output").innerHTML = html;
+    }
+
+    function calculateSum() {
+      let sum = 0;
+      for (let i = 1; i <= rows; i++) {
+        for (let j = 1; j <= cols; j++) {
+          const val = parseFloat(document.getElementById(`cell_${i}_${j}`).value);
+          if (!isNaN(val)) sum += val;
+        }
+      }
+      alert("Сума всіх елементів: " + sum.toFixed(2));
+    }
+  </script>
+</body>
+</html>

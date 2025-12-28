@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>Завдання 4 — console.log()</title>
+</head>
+<body>
+  <h1>Завдання 4 — console.log()</h1>
+  <p>Відкрийте DevTools (F12) → вкладка Console, щоб побачити результат.</p>
+  <p>Результат:</p>
+  <img src="zavdannya4.PNG" alt="Моє зображення" width="300">
+
+
+  <script>
+    console.clear();
+    console.log("Завдання 4");
+
+    let a = 17;
+    let b = 5;
+    let remainder = a % b;
+    console.log("1) Остача від ділення %d на %d = %d", a, b, remainder);
+
+    let x = 20;
+    let y = 4;
+    let isDivisible = (x % y === 0);
+    console.log("2) Чи остача (%d %% %d) дорівнює 0? -> %s", x, y, isDivisible);
+
+    let x2 = 21;
+    let y2 = 4;
+    let isDivisible2 = (x2 % y2 === 0);
+    console.log("   Чи остача (%d %% %d) дорівнює 0? -> %s", x2, y2, isDivisible2);
+
+    let arr = [10, 20, 30];
+
+    console.log("3) Значення масиву (як числа): %d, %d, %d", arr[0], arr[1], arr[2]);
+    console.log("   Перший елемент масиву як рядок: %s", arr[0]);
+
+    let title = "Мій масив";
+    console.log("   %s: [%d; %d; %d]", title, arr[0], arr[1], arr[2]);
+
+    console.log("кінець");
+  </script>
+</body>
+</html>
