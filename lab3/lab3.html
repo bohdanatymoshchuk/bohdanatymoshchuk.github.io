@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Лабораторна робота №3</title>
+  <style>
+    button { margin: 2px }
+    .hidden { display: none }
+    ul { margin: 5px 0 10px 20px; padding: 0 }
+    a { display: block; margin-top: 5px }
+  </style>
+</head>
+<body onload="initAll()">
+
+<h2>Завдання 1: Площа квадрата</h2>
+Сторона: <input id="side" type="number"><br>
+Площа: <input id="squareArea" readonly><br><br>
+
+<h2>Завдання 2-3: Екранна клавіатура</h2>
+<textarea id="textArea" rows="3" cols="50"></textarea><br>
+<div id="keyboard"></div>
+<button onclick="clearText()">Очистити поле</button>
+<button onclick="toggleLang()">Alt+Shift</button><br><br>
+
+<h2>Завдання 4: Перегляд зображень</h2>
+<img id="galleryImage" width="200"><br>
+<button onclick="prevImage()">Назад</button>
+<button onclick="nextImage()">Вперед</button><br><br>
+
+<h2>Завдання 5: Перевірка арифметики</h2>
+<div id="score"></div>
+<div id="taskText"></div>
+<input id="answer"><button onclick="checkAnswer()">Перевірити</button>
+<button onclick="nextTask()">Наступне завдання</button>
+<div id="result"></div><br>
+
+<h2>Завдання 6: Ієрархія</h2>
+<div id="treeContainer"></div>
+
+<script>
+function initAll() {
+  document.getElementById("side").oninput = calcSquare
+  createKeyboard()
+  showImage()
+  nextTask()
+  createTree()
+}
+
+function calcSquare() {
+  let a = parseFloat(document.getElementById("side").value)
+  document.getElementById("squareArea").value = isNaN(a) ? '' : a * a
+}
+
+let lang = 'ua'
+let keys_ua = ["1","2","3","4","5","6","7","8","9","0","а","б","в","г","ґ","д","е","є","ж","з","и","і","ї","й","к","л","м","н","о","п","р","с","т","у","ф","х","ц","ч","ш","щ","ь","ю","я"," "]
+let keys_en = ["1","2","3","4","5","6","7","8","9","0","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"," "]
+function createKeyboard() {
+  let keys = lang === 'ua' ? keys_ua : keys_en
+  let out = ""
+  keys.forEach((k,i)=>{
+    if(i==10 || i==21 || i==32) out += "<br>"
+    out += `<button onclick="addKey('${k}')">${k === " " ? "[пробіл]" : k}</button>`
+  })
+  document.getElementById("keyboard").innerHTML = out
+}
+function addKey(k) {
+  document.getElementById("textArea").value += k
+}
+function clearText() {
+  document.getElementById("textArea").value = ""
+}
+function toggleLang() {
+  lang = lang === 'ua' ? 'en' : 'ua'
+  createKeyboard()
+}
+
+let images = ['img1.png', 'img2.png', 'img3.png', 'img4.png']
+let imgIndex = 0
+
+function showImage() {
+  document.getElementById("galleryImage").src = images[imgIndex]
+}
+function nextImage() {
+  imgIndex = (imgIndex + 1) % images.length
+  showImage()
+}
+function prevImage() {
+  imgIndex = (imgIndex - 1 + images.length) % images.length
+  showImage()
+}
+
+
+let correct = 0, total = 0, a = 0, b = 0, op = '+'
+function nextTask() {
+  let ops = ['+','-','*','/']
+  a = Math.floor(Math.random()*10)
+  b = Math.floor(Math.random()*10)
+  op = ops[Math.floor(Math.random()*4)]
+  if(op==='/' && b===0) b=1
+  document.getElementById("taskText").innerHTML = `${a} ${op} ${b} =`
+  document.getElementById("answer").value = ""
+  document.getElementById("result").innerHTML = ""
+}
+function checkAnswer() {
+  let res = eval(`${a}${op}${b}`)
+  let ans = parseFloat(document.getElementById("answer").value)
+  total++
+  if (Math.abs(res - ans) < 0.01) {
+    correct++
+    document.getElementById("result").innerHTML = "Правильно"
+  } else {
+    document.getElementById("result").innerHTML = "Помилка, правильна відповідь «" + res + "»"
+  }
+  document.getElementById("score").innerHTML = `Загальний рахунок ${Math.round(correct/total*100)}% (${correct} правильних відповідей з ${total})`
+}
+
+function createTree() {
+  let data = {
+    "fruits": ["apple","pineapple","appricot","pear","lemon"],
+    "vegetables": ["potatoes","beetroot","carrots","pear"]
+  }
+  let out = ""
+  for (let category in data) {
+    out += `<a href="javascript:void(0)" onclick="toggleList(this)">${category}</a>\n<ul class="hidden">`
+    data[category].forEach(item => out += `<li>${item}</li>`)
+    out += "</ul>"
+  }
+  document.getElementById("treeContainer").innerHTML = out
+}
+function toggleList(link) {
+  let ul = link.nextElementSibling
+  ul.classList.toggle("hidden")
+}
+</script>
+
+</body>
+</html>
