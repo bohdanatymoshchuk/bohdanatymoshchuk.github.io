@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Тест з історії України</title>
+</head>
+<body>
+<form id="testForm">
+
+<h3>1. Столиця УНР у 1917 році (radio)</h3>
+<input type="radio" name="q1" value="1">Київ<br>
+<input type="radio" name="q1" value="0">Львів<br>
+<input type="radio" name="q1" value="0">Харків<br>
+<input type="radio" name="q1" value="0">Житомир<br>
+
+<h3>2. Рік проголошення незалежності України (radio)</h3>
+<input type="radio" name="q2" value="1">1991<br>
+<input type="radio" name="q2" value="0">1918<br>
+<input type="radio" name="q2" value="0">1939<br>
+<input type="radio" name="q2" value="0">2001<br>
+
+<h3>3. Держави Середньовіччя на українських землях (checkbox, 2 правильні)</h3>
+<input type="checkbox" name="q3" value="1">Київська Русь<br>
+<input type="checkbox" name="q3" value="1">Галицько-Волинське князівство<br>
+<input type="checkbox" name="q3" value="0">УНР<br>
+<input type="checkbox" name="q3" value="0">СРСР<br>
+
+<h3>4. Хто був гетьманом? (checkbox, 2 правильні)</h3>
+<input type="checkbox" name="q4" value="1">Богдан Хмельницький<br>
+<input type="checkbox" name="q4" value="1">Іван Мазепа<br>
+<input type="checkbox" name="q4" value="0">Іван Франко<br>
+<input type="checkbox" name="q4" value="0">Михайло Грушевський<br>
+
+<h3>5. У якій битві Богдан Хмельницький переміг поляків? (select)</h3>
+<select name="q5">
+  <option value="0">Під Берестечком</option>
+  <option value="1">Під Жовтими Водами</option>
+  <option value="0">Під Полтавою</option>
+  <option value="0">Під Крутами</option>
+</select>
+
+<h3>6. Учасники визвольної боротьби ХХ ст. (multiple select, для вибору кількох відповідей затисніть Ctrl)</h3>
+<select name="q6" multiple size="4">
+  <option value="1">Степан Бандера</option>
+  <option value="0">Леонід Брежнєв</option>
+  <option value="1">Роман Шухевич</option>
+  <option value="0">Петро Столипін</option>
+</select>
+
+<h3>7. Прізвище автора «Історії Русів» (text)</h3>
+<input type="text" name="q7"><br><br>
+
+<input type="button" value="Завершити тестування" onclick="calculateResult()">
+</form>
+
+<div id="results"></div>
+
+<script>
+function calculateResult() {
+  const form = document.forms['testForm']
+  let results = []
+  let total = 0
+
+  for (let i = 1; i <= 2; i++) {
+    const radios = form['q' + i]
+    let score = 0
+    for (let r of radios) {
+      if (r.checked) score = parseInt(r.value)
+    }
+    total += score
+    results.push(["Питання " + i, score ? "Правильно" : "Неправильно", score])
+  }
+
+  for (let i = 3; i <= 4; i++) {
+    const boxes = form['q' + i]
+    let checked = Array.from(boxes).filter(b => b.checked)
+    let score = 0
+    if (checked.length === 2) {
+      score = checked.reduce((s, b) => s + parseInt(b.value), 0)
+    }
+    total += score
+    results.push(["Питання " + i, checked.map(c => c.nextSibling.textContent.trim()).join(", "), score])
+  }
+
+  let q5 = form['q5']
+  let val5 = parseInt(q5.value)
+  total += val5
+  results.push(["Питання 5", q5.options[q5.selectedIndex].text, val5])
+
+  let q6 = form['q6']
+  let selected = Array.from(q6.selectedOptions)
+  let score6 = 0
+  if (selected.length === 2) {
+    score6 = selected.reduce((s, o) => s + parseInt(o.value), 0)
+  }
+  total += score6
+  results.push(["Питання 6", selected.map(o => o.text).join(", "), score6])
+
+  let q7 = form['q7'].value.trim().toLowerCase()
+  let score7 = q7 === 'бантиш-камінський' ? 1 : 0
+  total += score7
+  results.push(["Питання 7", form['q7'].value, score7])
+
+  let html = "<table border='1'><tr><th>Питання</th><th>Відповідь</th><th>Бали</th></tr>"
+  results.forEach(r => html += `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`)
+  html += `</table><p><b>Загальний бал: ${total}</b></p>`
+  document.getElementById("results").innerHTML = html
+}
+</script>
+</body>
+</html>
